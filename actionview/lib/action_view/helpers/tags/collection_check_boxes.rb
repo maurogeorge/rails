@@ -14,6 +14,7 @@ module ActionView
         end
 
         def render(&block)
+          options = @options.stringify_keys
           rendered_collection = render_collection do |item, value, text, default_html_options|
             default_html_options[:multiple] = true
             builder = instantiate_builder(CheckBoxBuilder, item, value, text, default_html_options)
@@ -27,7 +28,7 @@ module ActionView
 
           # Append a hidden field to make sure something will be sent back to the
           # server if all check boxes are unchecked.
-          if @options.fetch(:include_hidden, true)
+          if options.fetch('include_hidden', true)
             rendered_collection + hidden_field
           else
             rendered_collection
